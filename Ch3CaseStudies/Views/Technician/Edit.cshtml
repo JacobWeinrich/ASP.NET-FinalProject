@@ -1,0 +1,24 @@
+﻿@model Technician
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Edit/Add Technician Page";
+}
+
+<h2>@ViewBag.Action</h2>
+<hr />
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <label asp-for="Name" class="form-label fw-semibold">Technician Name:</label>
+    <input asp-for="Name" class="form-control border-secondary" />
+
+    <label asp-for="Email" class="form-label fw-semibold">Technician Email:</label>
+    <input asp-for="Email" class="form-control border-secondary" />
+
+    <label asp-for="Phone" class="form-label fw-semibold">Technician Phone#:</label>
+    <input asp-for="Phone" class="form-control border-secondary" />
+
+    <input type="hidden" asp-for="TechnicianId" />
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+    <a asp-controller="Technicians" asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
+</form>

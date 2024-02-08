@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>@ViewBag.title</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index" asp-area="">SportsPro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Home" asp-action="Index" asp-area="">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Product" asp-action="List" asp-area="">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Technician" asp-action="List" asp-area="">Technicians</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Customer" asp-action="List" asp-area="">Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Incident" asp-action="List" asp-area="">Incidents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Home" asp-action="Index" asp-area="">Registrations</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav me-0">
+                    <li class="nav-linl">
+                        <a class="nav-link active" asp-controller="Home" asp-action="About" asp-area="">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mt-2 container min-vh-100">
+        @RenderBody()
+    </div>
+    <footer class="container-fluid p-2 text-secondary">
+        &copy; @DateTime.Now.Year - SportsPro
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

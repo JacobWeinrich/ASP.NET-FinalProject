@@ -1,0 +1,36 @@
+﻿@model Incident
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Delete Incident Page";
+}
+
+<div>
+    <h2>Confirm Incident Deletion</h2>
+
+    <table class="table table-secondary mt-2">
+        <thead>
+            <tr class="text-center">
+                <th>#</th>
+                <th>Title</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>DateOpened</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="text-center">
+                <td class="col-1">@Model.IncidentId</td>
+                <td class="col-2">@Model.Title</td>
+                <td class="col-2">@Model.Customer.FirstName @Model.Customer.LastName</td>
+                <td class="col-2">@Model.Product.Name</td>
+                <td class="col-2">@Model.DateOpened</td>
+            </tr>
+        </tbody>
+    </table>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="IncidentId" />
+        <button class="btn btn-danger" type="submit">Delete</button>
+        <a asp-controller="Incidents" asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+
+</div>

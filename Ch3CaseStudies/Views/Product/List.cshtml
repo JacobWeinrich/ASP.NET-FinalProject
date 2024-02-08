@@ -1,0 +1,37 @@
+﻿@model List<Product>
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Products Page";
+}
+
+<h2>Product Manager</h2>
+<a asp-controller="Products" asp-action="Add" class="btn btn-primary">Add Product</a>
+
+<table class="table table-secondary mt-2">
+    <thead>
+        <tr class="text-center">
+            <th>#</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Release Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr class="text-center">
+                <td class="col-1">@product.ProductId</td>
+                <td class="col-2">@product.ProductCode</td>
+                <td class="col-2">@product.Name</td>
+                <td class="col-2">@((product.Price ?? 0).ToString("C"))</td>
+                <td class="col-2">@product.ReleaseDate.ToShortDateString()</td>
+                <td class="col-2">
+                    <a asp-controller="Products" asp-action="Edit" asp-route-id="@product.ProductId" asp-route-slug="@product.Slug" class="btn btn-primary me-2">Edit</a>
+                    <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.ProductId" asp-route-slug="@product.Slug" class="btn btn-primary">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

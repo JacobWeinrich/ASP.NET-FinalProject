@@ -1,0 +1,48 @@
+﻿@model Customer
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Edit/Add Customer Page";
+}
+
+<h2>@ViewBag.Action</h2>
+<hr />
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <label asp-for="FirstName" class="form-label fw-semibold">First Name:</label>
+    <input asp-for="FirstName" class="form-control border-secondary" />
+
+    <label asp-for="LastName" class="form-label fw-semibold">Last Name:</label>
+    <input asp-for="LastName" class="form-control border-secondary" />
+
+    <label asp-for="Email" class="form-label fw-semibold">Email:</label>
+    <input asp-for="Email" class="form-control border-secondary" />
+
+    <label asp-for="Phone" class="form-label fw-semibold">Phone#:</label>
+    <input asp-for="Phone" class="form-control border-secondary" />
+
+    <label asp-for="Address" class="form-label fw-semibold">Address:</label>
+    <input asp-for="Address" class="form-control border-secondary" />
+
+    <label asp-for="City" class="form-label fw-semibold">City:</label>
+    <input asp-for="City" class="form-control border-secondary" />
+
+    <label asp-for="State" class="form-label fw-semibold">State:</label>
+    <input asp-for="State" class="form-control border-secondary" />
+
+    <label asp-for="Zip" class="form-label fw-semibold">ZipCode:</label>
+    <input asp-for="Zip" class="form-control border-secondary" />
+
+    <label asp-for="Country" class="form-label fw-semibold">Country</label>
+    <select asp-for="Country" class="form-select border-secondary">
+        <option value="" disabled>-- Select Country --</option>
+        @foreach (var country in ViewBag.countries)
+        {
+            <option value="@country.Name">@country.Name</option>
+        }
+    </select>
+
+    <input type="hidden" asp-for="CustomerId" />
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+    <a asp-controller="Customers" asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
+</form>

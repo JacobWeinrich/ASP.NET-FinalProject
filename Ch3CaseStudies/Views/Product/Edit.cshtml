@@ -1,0 +1,27 @@
+﻿@model Product
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Edit/Add Product Page";
+}
+
+<h2>@ViewBag.Action</h2>
+<hr />
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <label asp-for="ProductCode" class="form-label fw-semibold">Product Code:</label>
+    <input asp-for="ProductCode" class="form-control border-secondary" />
+
+    <label asp-for="Name" class="form-label fw-semibold">Product Name:</label>
+    <input asp-for="Name" class="form-control border-secondary" />
+
+    <label asp-for="Price" class="form-label fw-semibold">Product Price:</label>
+    <input asp-for="Price" class="form-control border-secondary" />
+
+    <label asp-for="ReleaseDate" class="form-label fw-semibold">Product ReleaseDate:</label>
+    <input asp-for="ReleaseDate" class="form-control border-secondary" />
+
+    <input type="hidden" asp-for="ProductId" />
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+    <a asp-controller="Products" asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
+</form>

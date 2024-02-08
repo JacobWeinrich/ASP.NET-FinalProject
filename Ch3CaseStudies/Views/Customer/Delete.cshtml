@@ -1,0 +1,35 @@
+﻿@model Customer
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Delete Customer Page";
+}
+
+<div>
+    <h2>Confirm Customer Deletion</h2>
+
+    <table class="table table-secondary mt-2">
+        <thead>
+            <tr class="text-center">
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr class="text-center">
+                <td class="col-1">@Model.CustomerId</td>
+                <td class="col-2">@Model.FirstName @Model.LastName</td>
+                <td class="col-2">@Model.Email</td>
+                <td class="col-2">@Model.City</td>
+            </tr>
+        </tbody>
+    </table>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="CustomerId" />
+        <button class="btn btn-danger" type="submit">Delete</button>
+        <a asp-controller="Customers" asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+
+</div>
