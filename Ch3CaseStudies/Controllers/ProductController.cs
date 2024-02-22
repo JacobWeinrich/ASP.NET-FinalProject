@@ -25,6 +25,7 @@ namespace Ch3CaseStudies.Controllers
         {
             Context.Products.Remove(product);
             Context.SaveChanges();
+            TempData["Message"] = $"{product.Name} Removed from Products";
             return RedirectToAction("Index", "Products");
         }
 
@@ -55,10 +56,12 @@ namespace Ch3CaseStudies.Controllers
                 if (product.ProductId == 0)
                 {
                     Context.Products.Add(product);
+                    TempData["Message"] = $"{product.Name} Added to Products.";
                 }
                 else
                 {
                     Context.Products.Update(product);
+                    TempData["Message"] = $"{product.Name} Updated.";
                 }
                 Context.SaveChanges();
                 return RedirectToAction("Index", "Products");
@@ -81,6 +84,7 @@ namespace Ch3CaseStudies.Controllers
         public IActionResult List()
         {
             var products = Context.Products.OrderBy(p => p.Name).ToList();
+            ViewData["ProductTempMessage"] = TempData["Message"];
             return View(products);
         }
 

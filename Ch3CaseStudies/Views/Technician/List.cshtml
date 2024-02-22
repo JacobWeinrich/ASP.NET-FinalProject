@@ -5,7 +5,7 @@
 }
 
 <h2>Technician Manager</h2>
-<a asp-controller="Technicians" asp-action="Add" class="btn btn-primary">Add Technician</a>
+<a asp-controller="Technician" asp-action="Add" class="btn btn-primary">Add Technician</a>
 
 <table class="table table-secondary mt-2">
     <thead>
@@ -26,8 +26,8 @@
                 <td class="col-2">@technician.Email</td>
                 <td class="col-2">@technician.Phone</td>
                 <td class="col-2">
-                    <a asp-controller="Technicians" asp-action="Edit" asp-route-id="@technician.TechnicianId" asp-route-slug="@technician.Slug" class="btn btn-primary me-2">Edit</a>
-                    <a asp-controller="Technicians" asp-action="Delete" asp-route-id="@technician.TechnicianId" asp-route-slug="@technician.Slug" class="btn btn-primary">Delete</a>
+                    <a asp-controller="Technician" asp-action="Edit" asp-route-id="@technician.TechnicianId" asp-route-slug="@technician.Slug" class="btn btn-primary me-2">Edit</a>
+                    <a asp-controller="Technician" asp-action="Delete" asp-route-id="@technician.TechnicianId" asp-route-slug="@technician.Slug" class="btn btn-primary">Delete</a>
                 </td>
             </tr>
         }

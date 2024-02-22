@@ -1,56 +1,62 @@
-﻿@model Incident
+﻿@model IncidentEditViewModel
 @{
     Layout = "_Layout";
     ViewData["title"] = "Edit/Add Incident Page";
 }
 
-<h2>@ViewBag.Action</h2>
+@section scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<h2>@Model.Action</h2>
 <hr />
 <form asp-action="Edit" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    <label asp-for="CustomerId" class="form-label fw-semibold">Customer</label>
-    <select asp-for="CustomerId" class="form-select border-secondary">
+    <label asp-for="Incident.CustomerId" class="form-label fw-semibold">Customer</label>
+    <select asp-for="Incident.CustomerId" class="form-select border-secondary">
         <option value="" disabled selected>-- Select Customer --</option>
-        @foreach (var customer in ViewBag.Customers)
+        @foreach (var customer in Model.Customers)
         {
             <option value="@customer.CustomerId">@customer.FirstName @customer.LastName </option>
         }
     </select>
 
-    <label asp-for="ProductId" class="form-label fw-semibold">Product</label>
-    <select asp-for="ProductId" class="form-select border-secondary">
+    <label asp-for="Incident.ProductId" class="form-label fw-semibold">Product</label>
+    <select asp-for="Incident.ProductId" class="form-select border-secondary">
         <option value="" disabled selected>-- Select Product --</option>
-        @foreach (var product in ViewBag.Products)
+        @foreach (var product in Model.Products)
         {
             <option value="@product.ProductId">@product.Name</option>
         }
     </select>
 
-    <label asp-for="Title" class="form-label fw-semibold">Title:</label>
-    <input asp-for="Title" class="form-control border-secondary" />
+    <label asp-for="Incident.Title" class="form-label fw-semibold">Title:</label>
+    <input asp-for="Incident.Title" class="form-control border-secondary" />
 
 
-    <label asp-for="Description" class="form-label fw-semibold">Description:</label>
-    <input asp-for="Description" class="form-control border-secondary" />
+    <label asp-for="Incident.Description" class="form-label fw-semibold">Description:</label>
+    <input asp-for="Incident.Description" class="form-control border-secondary" />
 
-    <label asp-for="TechnicianId" class="form-label fw-semibold">Technician</label>
-    <select asp-for="TechnicianId" class="form-select border-secondary">
+    <label asp-for="Incident.TechnicianId" class="form-label fw-semibold">Technician</label>
+    <select asp-for="Incident.TechnicianId" class="form-select border-secondary">
         <option value="" selected>-- Select Technician --</option>
-        @foreach (var technician in ViewBag.Technicians)
+        @foreach (var technician in Model.Technicians)
         {
             <option value="@technician.TechnicianId">@technician.Name</option>
         }
     </select>
 
-    <label asp-for="DateOpened" class="form-label fw-semibold">Date Opened:</label>
-    <input asp-for="DateOpened" class="form-control border-secondary" />
+    <label asp-for="Incident.DateOpened" class="form-label fw-semibold">Date Opened:</label>
+    <input asp-for="Incident.DateOpened" class="form-control border-secondary" />
 
 
-    <label asp-for="DateClosed" class="form-label fw-semibold">Date Closed:</label>
-    <input asp-for="DateClosed" disabled class="form-control border-secondary" />
+    <label asp-for="Incident.DateClosed" class="form-label fw-semibold">Date Closed:</label>
+    <input asp-for="Incident.DateClosed" disabled class="form-control border-secondary" />
 
-    <input type="hidden" asp-for="IncidentId" />
+    <input type="hidden" asp-for="Incident.IncidentId" />
     <button type="submit" class="btn btn-primary mt-3">Save</button>
     <a asp-controller="Incidents" asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
 </form>

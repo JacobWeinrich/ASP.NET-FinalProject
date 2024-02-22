@@ -39,25 +39,38 @@ namespace Ch3CaseStudies.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            ViewBag.Action = "Add Incident";
-            ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
-            ViewBag.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
-            ViewBag.Products = Context.Products.OrderBy(p => p.Name).ToList();
-            Incident incident = new Incident();
-            incident.DateOpened = DateTime.Now.Date;
-
-            return View("Edit", incident);
+            //ViewBag.Action = "Add Incident";
+            //ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+            //ViewBag.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
+            //ViewBag.Products = Context.Products.OrderBy(p => p.Name).ToList();
+            //Incident incident = new Incident();
+            //incident.DateOpened = DateTime.Now.Date;
+            IncidentEditViewModel vm = new IncidentEditViewModel();
+            vm.Action = "Add Incident";
+            vm.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+            vm.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
+            vm.Products = Context.Products.OrderBy(p => p.Name).ToList();
+            vm.Incident.DateOpened = DateTime.Now.Date;
+            return View("Edit", vm);
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            ViewBag.Action = "Edit Incident";
-            ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
-            ViewBag.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
-            ViewBag.Products = Context.Products.OrderBy(p => p.Name).ToList();
-            var incident = Context.Incidents.Find(id);
-            return View(incident);
+            //ViewBag.Action = "Edit Incident";
+            //ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+            //ViewBag.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
+            //ViewBag.Products = Context.Products.OrderBy(p => p.Name).ToList();
+            //var incident = Context.Incidents.Find(id);
+            IncidentEditViewModel vm = new IncidentEditViewModel();
+            vm.Action = "Edit Incident";
+            Incident? incident = Context.Incidents.Find(id);
+            vm.Incident = incident != null ? incident : new Incident();
+            vm.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+            vm.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
+            vm.Products = Context.Products.OrderBy(p => p.Name).ToList();
+            vm.Incident.DateOpened = DateTime.Now.Date;
+            return View(vm);
         }
 
         [HttpPost]
