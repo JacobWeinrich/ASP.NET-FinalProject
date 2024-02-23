@@ -91,11 +91,17 @@ namespace Ch3CaseStudies.Controllers
             }
             else
             {
-                ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
-                ViewBag.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
-                ViewBag.Products = Context.Products.OrderBy(p => p.Name).ToList();
-                ViewBag.Action = (incident.IncidentId == 0) ? "Add" : "Edit";
-                return View(incident);
+                IncidentEditViewModel vm = new IncidentEditViewModel();
+                vm.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+                vm.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
+                vm.Products = Context.Products.OrderBy(p => p.Name).ToList();
+                vm.Incident = incident;
+                vm.Action = (incident.IncidentId == 0) ? "Add" : "Edit";
+                //ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+                //ViewBag.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
+                //ViewBag.Products = Context.Products.OrderBy(p => p.Name).ToList();
+                //ViewBag.Action = (incident.IncidentId == 0) ? "Add" : "Edit";
+                return View(vm);
             }
         }
 
