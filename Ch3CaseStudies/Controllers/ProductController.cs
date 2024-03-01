@@ -13,7 +13,7 @@ namespace Ch3CaseStudies.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public ViewResult Delete(int id)
         {
             ViewBag.Action = "Delete Product";
             var product = Context.Products.Find(id);
@@ -21,7 +21,7 @@ namespace Ch3CaseStudies.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Product product)
+        public RedirectToActionResult Delete(Product product)
         {
             Context.Products.Remove(product);
             Context.SaveChanges();
@@ -30,7 +30,7 @@ namespace Ch3CaseStudies.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public ViewResult Add()
         {
             ViewBag.Action = "Add Product";
 
@@ -41,7 +41,7 @@ namespace Ch3CaseStudies.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public ViewResult Edit(int id)
         {
             ViewBag.Action = "Edit Product";
             var product = Context.Products.Find(id);
@@ -74,14 +74,14 @@ namespace Ch3CaseStudies.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public RedirectToActionResult Index()
         {
             return RedirectToAction("List", "Product");
 
         }
         [HttpGet]
         [Route("/products")]
-        public IActionResult List()
+        public ViewResult List()
         {
             var products = Context.Products.OrderBy(p => p.Name).ToList();
             ViewData["ProductTempMessage"] = TempData["Message"];

@@ -34,6 +34,7 @@ namespace Ch3CaseStudies.Controllers
             Context.Incidents.Remove(incident);
             Context.SaveChanges();
             return RedirectToAction("Index", "Incident");
+            
         }
 
         [HttpGet]
