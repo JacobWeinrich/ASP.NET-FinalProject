@@ -1,0 +1,78 @@
+﻿@model TechIncidentViewModel
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "TechIncident";
+}
+@section scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+<h3>Edit Incident</h3>
+
+<form asp-action="Edit" method="post">
+
+    <div class="row mt-1">
+        <div class="col-2 fw-bold">
+            Technician:
+        </div>
+        <div class="col-2">
+            @Model.Technician.Name
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-2 fw-bold">
+            Customer:
+        </div>
+        <div class="col-2">
+            @Model.Incident.Customer.FirstName @Model.Incident.Customer.LastName
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-2 fw-bold">
+            Product:
+        </div>
+        <div class="col-2">
+            @Model.Incident.Product.Name
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-2 fw-bold">
+            Title:
+        </div>
+        <div class="col-2">
+            @Model.Incident.Title
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-2 fw-bold">
+            Date Opened:
+        </div>
+        <div class="col-2">
+            @Model.Incident.DateOpened.ToShortDateString()
+        </div>
+    </div>
+
+    <div class="row mt-1">
+        <div class="col-2 fw-bold">
+            <label asp-for="Incident.Description" class="form-label">Description:</label>
+        </div>
+        <div class="col-2">
+            <textarea asp-for="Incident.Description" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-2 fw-bold">
+            Date Closed:
+        </div>
+        <div class="col-2">
+            <input asp-for="Incident.DateClosed" class="form-control" />
+        </div>
+    </div>
+    <input type="hidden" class="form-control" asp-for="Incident.IncidentId" />
+
+
+    <hr />
+    <button class="btn btn-primary" type="submit">Save</button>
+    <a class="btn btn-warning" asp-action="List" asp-controller="TechIncident" asp-area="">Cancel</a>
+</form>

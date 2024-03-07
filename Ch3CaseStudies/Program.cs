@@ -11,6 +11,9 @@ builder.Services.AddDbContext<SportsProContext>(options =>
 
 builder.Services.AddRouting(options => { options.LowercaseUrls = true; options.AppendTrailingSlash = true; });
 
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,12 +28,16 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}/{slug?}");
+
+app.MapControllerRoute(
+    name: "TechIncident",
+    pattern: "{controller=TechIncident}/{action=List}/{id?}/{slug?}");
 
 
 app.Run();

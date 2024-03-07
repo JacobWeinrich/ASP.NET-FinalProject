@@ -1,0 +1,49 @@
+﻿@model TechIncidentViewModel
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "TechIncident";
+}
+<div class="container-fluid">
+    <h2>Technician: @Model.Technician.Name</h2>
+    <h2>Assigned/Open Incidents</h2>
+
+            @{
+                if (@Model.Incidents.Count() == 0)
+                {
+                    <div class="bg-info text-white fw-bold fs-2 text-center m-2 p-3">No open incidents</div>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-2">Title</th>
+                                <th class="col-2">Customer</th>
+                                <th class="col-3">Product</th>
+                                <th class="col-2">DateOpened</th>
+                                <th class="col-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var incident in Model.Incidents)
+                            {
+                                <tr class="row">
+                                    <td class="col-2">@incident.Title</td>
+                                    <td class="col-2">@incident.Customer.FirstName @incident.Customer.LastName</td>
+                                    <td class="col-3">@incident.Product.Name</td>
+                                    <td class="col-2">@incident.DateOpened.ToShortDateString()</td>
+                                    <td class="col-1">
+                                        <a asp-action="Edit" asp-controller="TechIncident" asp-route-id="@incident.IncidentId" asp-area="" class="btn btn-primary">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                }
+            }
+
+
+    <a asp-action="Index" asp-controller="TechIncident" asp-area="" class="btn btn-primary">Switch Technician</a>
+</div>

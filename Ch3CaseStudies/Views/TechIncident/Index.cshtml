@@ -1,0 +1,22 @@
+﻿@model Technician
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "TechIncident";
+}
+
+
+<div>
+    <h2>Technican</h2>
+    @{
+        if (ViewData["message"] != null)
+        {
+            <div class="bg-info text-white fw-bold fs-2 text-center m-2 p-3">@ViewData["message"]</div>
+        }
+    }
+    <form asp-action="List" method="post">
+        <select asp-for="TechnicianId" class="form-select border-secondary" asp-items="@(new SelectList(ViewBag.Technicians, "TechnicianId", "Name"))">
+            <option value="0" selected>-- Select Technician --</option>
+        </select>
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+    </form>
+</div>
