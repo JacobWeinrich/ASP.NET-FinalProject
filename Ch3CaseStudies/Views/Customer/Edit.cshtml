@@ -40,12 +40,9 @@
     <input asp-for="Zip" class="form-control border-secondary" />
 
     <label asp-for="Country" class="form-label fw-semibold">Country</label>
-    <select asp-for="Country" class="form-select border-secondary">
+    <select asp-for="Country" class="form-select border-secondary"
+            asp-items="@(new SelectList(Model.Country, nameof(Country.Name), nameof(Country.Name)))">
         <option value="" disabled>-- Select Country --</option>
-        @foreach (var country in ViewBag.countries)
-        {
-            <option value="@country.Name">@country.Name</option>
-        }
     </select>
 
     <input type="hidden" asp-for="CustomerId" />

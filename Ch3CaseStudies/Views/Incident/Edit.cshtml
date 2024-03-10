@@ -16,21 +16,14 @@
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <label asp-for="Incident.CustomerId" class="form-label fw-semibold">Customer</label>
-    <select asp-for="Incident.CustomerId" class="form-select border-secondary">
+    <select asp-for="Incident.CustomerId" class="form-select border-secondary" asp-items="@(new SelectList(Model.Customers, nameof(Customer.CustomerId), nameof(Customer.FirstName)))">
         <option value="" disabled selected>-- Select Customer --</option>
-        @foreach (var customer in Model.Customers)
-        {
-            <option value="@customer.CustomerId">@customer.FirstName @customer.LastName </option>
-        }
     </select>
 
     <label asp-for="Incident.ProductId" class="form-label fw-semibold">Product</label>
-    <select asp-for="Incident.ProductId" class="form-select border-secondary">
+    <select asp-for="Incident.ProductId" class="form-select border-secondary"
+            asp-items="@(new SelectList(Model.Products, nameof(Product.ProductId), nameof(Product.Name)))">
         <option value="" disabled selected>-- Select Product --</option>
-        @foreach (var product in Model.Products)
-        {
-            <option value="@product.ProductId">@product.Name</option>
-        }
     </select>
 
     <label asp-for="Incident.Title" class="form-label fw-semibold">Title:</label>
@@ -41,7 +34,8 @@
     <input asp-for="Incident.Description" class="form-control border-secondary" />
 
     <label asp-for="Incident.TechnicianId" class="form-label fw-semibold">Technician</label>
-    <select asp-for="Incident.TechnicianId" class="form-select border-secondary">
+    <select asp-for="Incident.TechnicianId" class="form-select border-secondary"
+            asp-items="@(new SelectList(Model.Technicians, nameof(Technician.TechnicianId), nameof(Technician.Name)))">
         <option value="" selected>-- Select Technician --</option>
         @foreach (var technician in Model.Technicians)
         {
