@@ -34,7 +34,7 @@ namespace Ch3CaseStudies.Controllers
             Context.Incidents.Remove(incident);
             Context.SaveChanges();
             return RedirectToAction("Index", "Incident");
-            
+
         }
 
         [HttpGet]
@@ -113,11 +113,28 @@ namespace Ch3CaseStudies.Controllers
         }
 
         [HttpGet]
-        [Route("/incidents")]
-        public IActionResult List()
+        [Route("/incidents/{sort?}")]
+
+        public IActionResult List(string sort)
         {
-            var incidents = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).ToList();
-            return View(incidents);
+            if (sort == "unassigned")
+            {
+                var incidents = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).Where(t => t.TechnicianId == null).ToList();
+                return View(incidents);
+            }
+            else if (sort == "open")
+            {
+                var incidents = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).Where(c => c.DateClosed == null).ToList();
+                return View(incidents);
+            }else if(sort == "all")
+            {
+                var incidents = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).ToList();
+                return View(incidents);
+            }
+            else
+            {
+              return RedirectToAction("List", "Incident", new { sort = "all" });
+            }
         }
     }
 }

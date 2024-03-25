@@ -32,7 +32,7 @@ namespace Ch3CaseStudies.Controllers
         public IActionResult Add()
         {
             ViewBag.Action = "Add Customer";
-            Customer customer = new Customer(); 
+            Customer customer = new Customer();
             ViewBag.countries = Context.Countries.OrderBy(c => c.CountryId).ToList();
             return View("Edit", customer);
         }
@@ -49,6 +49,18 @@ namespace Ch3CaseStudies.Controllers
         [HttpPost]
         public IActionResult Edit(Customer customer)
         {
+            if (!string.IsNullOrEmpty(customer.Email))
+            {
+                string msg = "";
+                msg = Check.CheckEmail(Context, customer);
+
+                if (!string.IsNullOrEmpty(msg))
+                {
+                    ModelState.AddModelError(nameof(customer.Email), msg);
+                }
+            }
+
+
             if (ModelState.IsValid)
             {
                 if (customer.CustomerId == 0)

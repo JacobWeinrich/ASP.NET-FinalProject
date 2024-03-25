@@ -41,8 +41,8 @@
 
     <label asp-for="Country" class="form-label fw-semibold">Country</label>
     <select asp-for="Country" class="form-select border-secondary"
-            asp-items="@(new SelectList(Model.Country, nameof(Country.Name), nameof(Country.Name)))">
-        <option value="" disabled>-- Select Country --</option>
+            asp-items="@(new SelectList(ViewBag.countries, nameof(Country.Name), nameof(Country.Name)))">
+        <option value="" disabled selected>-- Select Country --</option>
     </select>
 
     <input type="hidden" asp-for="CustomerId" />

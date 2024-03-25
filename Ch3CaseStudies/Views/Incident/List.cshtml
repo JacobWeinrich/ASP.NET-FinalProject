@@ -3,10 +3,19 @@
     Layout = "_Layout";
     ViewData["title"] = "Incident Manager Page";
 }
+@{
+    string c = ViewContext.RouteData.Values["Controller"].ToString() ?? "";
+    string a = ViewContext.RouteData.Values["Action"].ToString() ?? "";
+    string s = ViewContext.RouteData.Values["sort"]?.ToString() ?? "";
+}
 
 <h2>Incident Manager</h2>
 <a asp-controller="Incident" asp-action="Add" class="btn btn-primary">Add Incident</a>
-
+<div class="btn-group" role="group">
+    <a asp-action="List" asp-route-sort="All" class="btn btn-lg btn-primary @(s.ToLower() != "unassigned" && s.ToLower() != "open"  ? "fw-bold" : "fw-normal")" >All</a>
+    <a asp-action="List" asp-route-sort="Unassigned" class="btn btn-lg btn-primary @(s.ToLower() == "unassigned" ? "fw-bold" : "fw-normal")">Unassigned</a>
+    <a asp-action="List" asp-route-sort="Open" class="btn btn-lg btn-primary @(s.ToLower() == "open" ? "fw-bold" : "fw-normal")">Open</a>
+</div>
 <table class="table table-secondary mt-2">
     <thead>
         <tr class="text-center">

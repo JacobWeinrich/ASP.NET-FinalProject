@@ -43,12 +43,14 @@
         }
     </select>
 
-    <label asp-for="Incident.DateOpened" class="form-label fw-semibold">Date Opened:</label>
+    <label asp-for="Incident.DateClosed" class="form-label fw-semibold">Date Opened:</label>
     <input asp-for="Incident.DateOpened" class="form-control border-secondary" />
 
 
     <label asp-for="Incident.DateClosed" class="form-label fw-semibold">Date Closed:</label>
     <input asp-for="Incident.DateClosed" disabled class="form-control border-secondary" />
+
+    <input asp-for="Incident.DateClosed" type="hidden" />
 
     <input type="hidden" asp-for="Incident.IncidentId" />
     <button type="submit" class="btn btn-primary mt-3">Save</button>
