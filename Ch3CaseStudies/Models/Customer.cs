@@ -49,5 +49,8 @@ namespace Ch3CaseStudies.Models
         [StringLength(50, MinimumLength = 1, ErrorMessage = "Email must be between 1 and 51 characters long.")]
         public string? Email { get; set; }
 
+        public ICollection<Product> Products { get; set; } 
+
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

@@ -26,5 +26,7 @@ namespace Ch3CaseStudies.Models
 
         [Required(ErrorMessage = "Product Release Date is Required!")]
         public DateTime ReleaseDate { get; set; }
+
+        public ICollection<Customer> Customers { get; set; }
     }
 }

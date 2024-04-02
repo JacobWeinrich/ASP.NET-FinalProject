@@ -1,0 +1,22 @@
+﻿@model RegistrationViewModel
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Registration Manager";
+}
+
+<h3>Registration Manager</h3>
+<h1>Customer: @Model.SelectedCustomer.FullName</h1>
+
+@foreach (var item in Model.SelectedCustomer.Products)
+{
+    <p>@item.Name</p>
+}
+
+
+<form asp-action="Register" method="post">
+
+
+
+    <input type="hidden" asp-for="SelectedCustomerId" value="@Model.SelectedCustomer.CustomerId" />
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>

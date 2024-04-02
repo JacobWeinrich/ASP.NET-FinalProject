@@ -1,0 +1,19 @@
+﻿@model RegistrationViewModel
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Registration Manager";
+}
+
+<h3>Registration Manager</h3>
+<h1>Get Customer</h1>
+<p class='text-danger'>@ViewData["message"]</p>
+
+
+
+<form asp-action="SelectCustomer" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <select class="form-control" asp-for="SelectedCustomerId" asp-items="@(new SelectList(Model.Customers, nameof(Customer.CustomerId), nameof(Customer.FullName)))">
+        <option value="" disabled selected>-- Select Customer --</option>
+    </select>
+    <button type="submit" class="btn btn-primary mt-3">Select</button>
+</form>

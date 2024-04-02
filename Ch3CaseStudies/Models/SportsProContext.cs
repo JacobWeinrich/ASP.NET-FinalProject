@@ -23,6 +23,10 @@ namespace Ch3CaseStudies.Models
             modelBuilder.Entity<Customer>().HasData(new Customer() { CustomerId = 1, FirstName = "Customer1", LastName = "Customer1", Address = "1234 Example St", City = "Example", State = "EX", Zip = "12345", Country = "USA", Phone = "555-555-5555", Email = "Example@example.com" });
             modelBuilder.Entity<Country>().HasData(new Country() { CountryId = 1, Name = "USA" }, new Country() { CountryId = 2, Name = "Canada" }, new Country() { CountryId = 3, Name = "Mexico" });
             modelBuilder.Entity<Incident>().HasData(new Incident() { IncidentId = 1, Title = "Incident1", Description = "Incident1", DateOpened = DateTime.Now, CustomerId = 1, ProductId = 1, TechnicianId = 1 });
+
+            modelBuilder.Entity<Product>().HasMany(p => p.Customers).WithMany(c => c.Products).UsingEntity(sc => sc.HasData(
+                new { ProductsProductId = 1, CustomersCustomerId = 1 }
+                ));
         }
     }
 }
