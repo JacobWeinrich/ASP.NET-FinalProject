@@ -1,4 +1,7 @@
-﻿namespace Ch3CaseStudies.Models
+﻿using Ch3CaseStudies.Models.DataLayer;
+using Ch3CaseStudies.Models.DomainModels;
+
+namespace Ch3CaseStudies.Models
 {
     public static class Check
     {

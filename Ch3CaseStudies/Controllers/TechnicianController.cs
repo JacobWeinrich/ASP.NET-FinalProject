@@ -1,30 +1,33 @@
-﻿using Ch3CaseStudies.Models;
+﻿using Ch3CaseStudies.Models.DataLayer;
+using Ch3CaseStudies.Models.DomainModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ch3CaseStudies.Controllers
 {
     public class TechnicianController : Controller
     {
-        public SportsProContext Context { get; set; }
+        //public SportsProContext Context { get; set; }
+        private Repository<Technician> Technicians { get; set; }
 
         public TechnicianController(SportsProContext ctx)
         {
-            Context = ctx;
+            //Context = ctx;
+            Technicians = new Repository<Technician>(ctx);
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
             ViewBag.Action = "Delete Technician";
-            var technician = Context.Technicians.Find(id);
+            var technician = Technicians.Get(id);
             return View(technician);
         }
 
         [HttpPost]
         public IActionResult Delete(Technician technician)
         {
-            Context.Technicians.Remove(technician);
-            Context.SaveChanges();
+            Technicians.Delete(technician);
+            Technicians.Save();
             return RedirectToAction("Index", "Technicians");
         }
 
@@ -42,7 +45,8 @@ namespace Ch3CaseStudies.Controllers
         public IActionResult Edit(int id)
         {
             ViewBag.Action = "Edit Technician";
-            var technician = Context.Technicians.Find(id);
+            //var technician = Context.Technicians.Find(id);
+            var technician = Technicians.Get(id);
             return View(technician);
         }
 
@@ -53,13 +57,16 @@ namespace Ch3CaseStudies.Controllers
             {
                 if (technician.TechnicianId == 0)
                 {
-                    Context.Technicians.Add(technician);
+                    //Context.Technicians.Add(technician);
+                    Technicians.Insert(technician);
                 }
                 else
                 {
-                    Context.Technicians.Update(technician);
+                    //Context.Technicians.Update(technician);
+                    Technicians.Update(technician);
                 }
-                Context.SaveChanges();
+                //Context.SaveChanges();
+                Technicians.Save();
                 return RedirectToAction("Index", "Technicians");
             }
             else
@@ -81,7 +88,12 @@ namespace Ch3CaseStudies.Controllers
         [Route("/technicians")]
         public IActionResult List()
         {
-            var technicians = Context.Technicians.OrderBy(t => t.Name).Where(t => t.TechnicianId > 0).ToList();
+            //var technicians = Context.Technicians.OrderBy(t => t.Name).Where(t => t.TechnicianId > 0).ToList();
+            var technicians = Technicians.List(new QueryOptions<Technician>
+            {
+                OrderBy = t => t.Name,
+                Where = t => t.TechnicianId > 0
+            });
             return View(technicians);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Ch3CaseStudies.Models.DomainModels;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ch3CaseStudies.Models
@@ -16,6 +17,10 @@ namespace Ch3CaseStudies.Models
 
         [Required(ErrorMessage = "Please select a customer.")]
         public int? SelectedCustomerId { get; set; }
+
+        [ValidateNever]
+        public int? SelectedProductId { get; set; }
+
 
     }
 }

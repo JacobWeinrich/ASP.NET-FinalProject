@@ -1,30 +1,40 @@
 ﻿using Ch3CaseStudies.Models;
+using Ch3CaseStudies.Models.DataLayer;
+using Ch3CaseStudies.Models.DomainModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ch3CaseStudies.Controllers
 {
     public class CustomerController : Controller
     {
-        public SportsProContext Context { get; set; }
+        private SportsProContext Context { get; set; }
+
+        private Repository<Customer> Customers { get; set; }
+        private Repository<Country> Countries { get; set; }
 
         public CustomerController(SportsProContext ctx)
         {
             Context = ctx;
+            Customers = new Repository<Customer>(ctx);
+            Countries = new Repository<Country>(ctx);
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
             ViewBag.Action = "Delete Customer";
-            var customer = Context.Customers.Find(id);
+            //var customer = Context.Customers.Find(id);
+            var customer = Customers.Get(id);
             return View(customer);
         }
 
         [HttpPost]
         public IActionResult Delete(Customer customer)
         {
-            Context.Customers.Remove(customer);
-            Context.SaveChanges();
+            //Context.Customers.Remove(customer);
+            //Context.SaveChanges();
+            Customers.Delete(customer);
+            Customers.Save();
             return RedirectToAction("Index", "Customers");
         }
 
@@ -33,7 +43,8 @@ namespace Ch3CaseStudies.Controllers
         {
             ViewBag.Action = "Add Customer";
             Customer customer = new Customer();
-            ViewBag.countries = Context.Countries.OrderBy(c => c.CountryId).ToList();
+            //ViewBag.countries = Context.Countries.OrderBy(c => c.CountryId).ToList();
+            ViewBag.countries = Countries.List(new QueryOptions<Country> { OrderBy = c => c.CountryId });
             return View("Edit", customer);
         }
 
@@ -41,8 +52,10 @@ namespace Ch3CaseStudies.Controllers
         public IActionResult Edit(int id)
         {
             ViewBag.Action = "Edit Customer";
-            var customer = Context.Customers.Find(id);
-            ViewBag.countries = Context.Countries.OrderBy(c => c.CountryId).ToList();
+            //var customer = Context.Customers.Find(id);
+            //ViewBag.countries = Context.Countries.OrderBy(c => c.CountryId).ToList();
+            var customer = Customers.Get(id);
+            ViewBag.countries = Countries.List(new QueryOptions<Country> { OrderBy = c => c.CountryId });
             return View(customer);
         }
 
@@ -65,18 +78,19 @@ namespace Ch3CaseStudies.Controllers
             {
                 if (customer.CustomerId == 0)
                 {
-                    Context.Customers.Add(customer);
+                    Customers.Insert(customer);
                 }
                 else
                 {
-                    Context.Customers.Update(customer);
+                    Customers.Update(customer);
                 }
-                Context.SaveChanges();
+                Customers.Save();
                 return RedirectToAction("Index", "Customers");
             }
             else
             {
-                ViewBag.countries = Context.Countries.OrderBy(c => c.CountryId).ToList();
+                //ViewBag.countries = Context.Countries.OrderBy(c => c.CountryId).ToList();
+                ViewBag.countries = Countries.List(new QueryOptions<Country> { OrderBy = c => c.CountryId });
                 ViewBag.Action = (customer.CustomerId == 0) ? "Add" : "Edit";
                 return View(customer);
             }
@@ -93,8 +107,9 @@ namespace Ch3CaseStudies.Controllers
         [Route("/customers")]
         public IActionResult List()
         {
-            var customers = Context.Customers.OrderBy(t => t.LastName).ToList();
-            return View(customers);
+            //var customers = Context.Customers.OrderBy(t => t.LastName).ToList();
+            var customerList = Customers.List(new QueryOptions<Customer> { OrderBy = t => t.LastName! });
+            return View(customerList);
         }
     }
 }

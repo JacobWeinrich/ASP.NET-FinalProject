@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ch3CaseStudies.Models
+namespace Ch3CaseStudies.Models.DomainModels
 {
     public class Customer
     {
@@ -49,7 +49,8 @@ namespace Ch3CaseStudies.Models
         [StringLength(50, MinimumLength = 1, ErrorMessage = "Email must be between 1 and 51 characters long.")]
         public string? Email { get; set; }
 
-        public ICollection<Product> Products { get; set; } 
+        [ValidateNever]
+        public ICollection<Product> Products { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
     }

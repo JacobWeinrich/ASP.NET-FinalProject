@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
 
-namespace Ch3CaseStudies.Models
+namespace Ch3CaseStudies.Models.DomainModels
 {
     public class Incident
     {

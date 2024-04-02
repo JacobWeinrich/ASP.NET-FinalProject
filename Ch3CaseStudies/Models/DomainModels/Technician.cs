@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ch3CaseStudies.Models
+namespace Ch3CaseStudies.Models.DomainModels
 {
     public class Technician
     {
@@ -9,7 +9,7 @@ namespace Ch3CaseStudies.Models
         public int TechnicianId { get; set; }
 
         [ValidateNever]
-        public string Slug => (Name)?.Replace(' ', '-').ToLower();
+        public string Slug => Name?.Replace(' ', '-').ToLower();
 
         [Required(ErrorMessage = "Valid Technician Name is Required!")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Technician Name must be between 2 and 50 characters long.")]

@@ -1,9 +1,8 @@
-﻿
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ch3CaseStudies.Models
+namespace Ch3CaseStudies.Models.DomainModels
 {
     public class Product
     {
@@ -11,7 +10,7 @@ namespace Ch3CaseStudies.Models
         public int ProductId { get; set; }
 
         [ValidateNever]
-        public string Slug => (Name)?.Replace(' ', '-').ToLower() + '-' + ReleaseDate.Year.ToString();
+        public string Slug => Name?.Replace(' ', '-').ToLower() + '-' + ReleaseDate.Year.ToString();
 
 
         [Required(ErrorMessage = "Valid Product Code is Required!")]
@@ -26,7 +25,7 @@ namespace Ch3CaseStudies.Models
 
         [Required(ErrorMessage = "Product Release Date is Required!")]
         public DateTime ReleaseDate { get; set; }
-
+        [ValidateNever]
         public ICollection<Customer> Customers { get; set; }
     }
 }

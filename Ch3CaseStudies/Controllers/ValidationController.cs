@@ -1,4 +1,4 @@
-﻿using Ch3CaseStudies.Models;
+﻿using Ch3CaseStudies.Models.DataLayer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ch3CaseStudies.Controllers

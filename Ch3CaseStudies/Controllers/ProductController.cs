@@ -1,30 +1,33 @@
-﻿using Ch3CaseStudies.Models;
+﻿using Ch3CaseStudies.Models.DataLayer;
+using Ch3CaseStudies.Models.DomainModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ch3CaseStudies.Controllers
 {
     public class ProductController : Controller
     {
-        public SportsProContext Context { get; set; }
+        //public SportsProContext Context { get; set; }
+        private Repository<Product> Products { get; set; }
 
         public ProductController(SportsProContext ctx)
         {
-            Context = ctx;
+            //Context = ctx;
+            Products = new Repository<Product>(ctx);
         }
 
         [HttpGet]
         public ViewResult Delete(int id)
         {
             ViewBag.Action = "Delete Product";
-            var product = Context.Products.Find(id);
+            var product = Products.Get(id);
             return View(product);
         }
 
         [HttpPost]
         public RedirectToActionResult Delete(Product product)
         {
-            Context.Products.Remove(product);
-            Context.SaveChanges();
+            Products.Delete(product);
+            Products.Save();
             TempData["Message"] = $"{product.Name} Removed from Products";
             return RedirectToAction("Index", "Products");
         }
@@ -44,7 +47,7 @@ namespace Ch3CaseStudies.Controllers
         public ViewResult Edit(int id)
         {
             ViewBag.Action = "Edit Product";
-            var product = Context.Products.Find(id);
+            var product = Products.Get(id);
             return View(product);
         }
 
@@ -55,15 +58,15 @@ namespace Ch3CaseStudies.Controllers
             {
                 if (product.ProductId == 0)
                 {
-                    Context.Products.Add(product);
+                    Products.Insert(product);
                     TempData["Message"] = $"{product.Name} Added to Products.";
                 }
                 else
                 {
-                    Context.Products.Update(product);
+                    Products.Update(product);
                     TempData["Message"] = $"{product.Name} Updated.";
                 }
-                Context.SaveChanges();
+                Products.Save();
                 return RedirectToAction("Index", "Products");
             }
             else
@@ -83,7 +86,8 @@ namespace Ch3CaseStudies.Controllers
         [Route("/products")]
         public ViewResult List()
         {
-            var products = Context.Products.OrderBy(p => p.Name).ToList();
+            //var products = Context.Products.OrderBy(p => p.Name).ToList();
+            var products = Products.List(new QueryOptions<Product> { OrderBy = p => p.Name });
             ViewData["ProductTempMessage"] = TempData["Message"];
             return View(products);
         }

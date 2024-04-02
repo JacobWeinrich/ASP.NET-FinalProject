@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ch3CaseStudies.Models
+namespace Ch3CaseStudies.Models.DomainModels
 {
     public class Country
     {

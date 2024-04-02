@@ -1,4 +1,6 @@
-﻿namespace Ch3CaseStudies.Models
+﻿using Ch3CaseStudies.Models.DomainModels;
+
+namespace Ch3CaseStudies.Models
 {
     public class IncidentEditViewModel
     {

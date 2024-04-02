@@ -1,4 +1,6 @@
 ﻿using Ch3CaseStudies.Models;
+using Ch3CaseStudies.Models.DataLayer;
+using Ch3CaseStudies.Models.DomainModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,23 +9,37 @@ namespace Ch3CaseStudies.Controllers
     public class IncidentController : Controller
     {
 
-        public SportsProContext Context { get; set; }
+        //public SportsProContext Context { get; set; }
+        
+        private Repository<Customer> Customers { get; set; }
+        private Repository<Incident> Incidents { get; set; }
+        private Repository<Product> Products { get; set; }
+        private Repository<Technician> Technicians { get; set; }
+
 
         public IncidentController(SportsProContext ctx)
         {
-            Context = ctx;
+            //Context = ctx;
+            Customers = new Repository<Customer>(ctx);
+            Incidents = new Repository<Incident>(ctx);
+            Products = new Repository<Product>(ctx);
+            Technicians = new Repository<Technician>(ctx);
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
             ViewBag.Action = "Delete Incident";
-            var incident = Context.Incidents.Find(id);
+            //var incident = Context.Incidents.Find(id);
+            var incident = Incidents.Get(id);
             if (incident != null)
             {
-                incident.Technician = Context.Technicians.Find(incident.TechnicianId);
-                incident.Customer = Context.Customers.Find(incident.CustomerId);
-                incident.Product = Context.Products.Find(incident.ProductId);
+                //incident.Technician = Context.Technicians.Find(incident.TechnicianId);
+                //incident.Customer = Context.Customers.Find(incident.CustomerId);
+                //incident.Product = Context.Products.Find(incident.ProductId);
+                incident.Technician = Technicians.Get(incident.TechnicianId ?? 0)!;
+                incident.Customer = Customers.Get(incident.CustomerId ?? 0)!;
+                incident.Product = Products.Get(incident.ProductId ?? 0)!;
             }
             return View(incident);
         }
@@ -31,8 +47,8 @@ namespace Ch3CaseStudies.Controllers
         [HttpPost]
         public IActionResult Delete(Incident incident)
         {
-            Context.Incidents.Remove(incident);
-            Context.SaveChanges();
+            Incidents.Delete(incident);
+            Incidents.Save();
             return RedirectToAction("Index", "Incident");
 
         }
@@ -48,9 +64,12 @@ namespace Ch3CaseStudies.Controllers
             //incident.DateOpened = DateTime.Now.Date;
             IncidentEditViewModel vm = new IncidentEditViewModel();
             vm.Action = "Add Incident";
-            vm.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
-            vm.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
-            vm.Products = Context.Products.OrderBy(p => p.Name).ToList();
+            //vm.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+            //vm.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
+            //vm.Products = Context.Products.OrderBy(p => p.Name).ToList();
+            vm.Technicians = (List<Technician>)Technicians.List(new QueryOptions<Technician> { OrderBy = t => t.Name });
+            vm.Customers = (List<Customer>)Customers.List(new QueryOptions<Customer> { OrderBy = c => c.LastName });
+            vm.Products = (List<Product>)Products.List(new QueryOptions<Product> { OrderBy = p => p.Name });
             vm.Incident.DateOpened = DateTime.Now.Date;
             return View("Edit", vm);
         }
@@ -65,11 +84,14 @@ namespace Ch3CaseStudies.Controllers
             //var incident = Context.Incidents.Find(id);
             IncidentEditViewModel vm = new IncidentEditViewModel();
             vm.Action = "Edit Incident";
-            Incident? incident = Context.Incidents.Find(id);
+            Incident? incident = Incidents.Get(id);
             vm.Incident = incident != null ? incident : new Incident();
-            vm.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
-            vm.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
-            vm.Products = Context.Products.OrderBy(p => p.Name).ToList();
+            //vm.Technicians = Technicians.OrderBy(t => t.Name).ToList();
+            //vm.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
+            //vm.Products = Context.Products.OrderBy(p => p.Name).ToList();
+            vm.Technicians = (List<Technician>)Technicians.List(new QueryOptions<Technician> { OrderBy = t => t.Name });
+            vm.Customers = (List<Customer>)Customers.List(new QueryOptions<Customer> { OrderBy = c => c.LastName });
+            vm.Products = (List<Product>)Products.List(new QueryOptions<Product> { OrderBy = p => p.Name });
             vm.Incident.DateOpened = DateTime.Now.Date;
             return View(vm);
         }
@@ -81,21 +103,21 @@ namespace Ch3CaseStudies.Controllers
             {
                 if (incident.IncidentId == 0)
                 {
-                    Context.Incidents.Add(incident);
+                    Incidents.Insert(incident);
                 }
                 else
                 {
-                    Context.Incidents.Update(incident);
+                    Incidents.Update(incident);
                 }
-                Context.SaveChanges();
+                Incidents.Save();
                 return RedirectToAction("Index", "Incident");
             }
             else
             {
                 IncidentEditViewModel vm = new IncidentEditViewModel();
-                vm.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
-                vm.Customers = Context.Customers.OrderBy(c => c.LastName).ToList();
-                vm.Products = Context.Products.OrderBy(p => p.Name).ToList();
+                vm.Technicians = (List<Technician>)Technicians.List(new QueryOptions<Technician> { OrderBy = t => t.Name });
+                vm.Customers = (List<Customer>)Customers.List(new QueryOptions<Customer> { OrderBy = c => c.LastName });
+                vm.Products = (List<Product>)Products.List(new QueryOptions<Product> { OrderBy = p => p.Name });
                 vm.Incident = incident;
                 vm.Action = (incident.IncidentId == 0) ? "Add" : "Edit";
                 //ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
@@ -119,17 +141,20 @@ namespace Ch3CaseStudies.Controllers
         {
             if (sort == "unassigned")
             {
-                var incidents = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).Where(t => t.TechnicianId == null).ToList();
-                return View(incidents);
+                //var incidents = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).Where(t => t.TechnicianId == null).ToList();
+                var incidentsList = Incidents.List(new QueryOptions<Incident> {OrderBy = t => t.IncidentId * -1, Where = t => t.TechnicianId == null, Includes = "Customer, Technician, Product" });
+                return View(incidentsList);
             }
             else if (sort == "open")
             {
-                var incidents = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).Where(c => c.DateClosed == null).ToList();
-                return View(incidents);
+                //var incidents = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).Where(c => c.DateClosed == null).ToList();
+                var incidentsList = Incidents.List(new QueryOptions<Incident> { OrderBy = t => t.IncidentId * -1, Where = t => t.DateClosed == null, Includes = "Customer, Technician, Product" });
+                return View(incidentsList);
             }else if(sort == "all")
             {
-                var incidents = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).ToList();
-                return View(incidents);
+                //var incidentsList = Context.Incidents.Include(c => c.Customer).Include(t => t.Technician).Include(p => p.Product).OrderBy(t => t.IncidentId * -1).ToList();
+                var incidentsList = Incidents.List(new QueryOptions<Incident> { OrderBy = t => t.IncidentId * -1, Includes = "Customer, Technician, Product" });
+                return View(incidentsList);
             }
             else
             {

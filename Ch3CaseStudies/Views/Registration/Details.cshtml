@@ -5,18 +5,49 @@
 }
 
 <h3>Registration Manager</h3>
-<h1>Customer: @Model.SelectedCustomer.FullName</h1>
+<hr />
+<h1>Customer: <span class="fw-normal">@Model.SelectedCustomer.FullName</span></h1>
+<p class='text-success fw-bold'>@ViewData["message"]</p>
 
-@foreach (var item in Model.SelectedCustomer.Products)
-{
-    <p>@item.Name</p>
-}
+<h2>Registered Products</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="col-1">Id</th>
+            <th class="col-6">Name</th>
+            <th class="col-3"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.SelectedCustomer.Products)
+        {
+            <tr>
+                <td class="col-1">
+                    <p>@item.ProductId</p>
+                </td>
+                <td class="col-6">
+                    <p>@item.Name</p>
+                </td>
+                <td class="col-3">
+                    <form asp-action="Remove" method="post">
+                        <input type="hidden" asp-for="SelectedCustomerId" value="@Model.SelectedCustomer.CustomerId" />
+                        <input type="hidden" asp-for="SelectedProductId" value="@item.ProductId" />
+                        <button type="submit" class="btn btn-warning">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 
+<hr />
+<h2>Register Product</h2>
 <form asp-action="Register" method="post">
-
-
-
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <select class="form-control" asp-for="SelectedProductId" asp-items="@(new SelectList(Model.Products, nameof(Product.ProductId), nameof(Product.Name)))">
+        <option value="" disabled selected>-- Select Product --</option>
+    </select>
     <input type="hidden" asp-for="SelectedCustomerId" value="@Model.SelectedCustomer.CustomerId" />
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
