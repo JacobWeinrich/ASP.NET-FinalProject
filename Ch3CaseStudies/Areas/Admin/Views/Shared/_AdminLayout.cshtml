@@ -22,29 +22,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-     
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link @(c == "Home" && a == "Index" ? "active" : "")" asp-controller="Home" asp-action="Index" asp-area="">Home</a>
                     </li>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link @(c == "Product" ? "active" : "")" asp-controller="Product" asp-action="List" asp-area="">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(c == "Technician" ? "active" : "")" asp-controller="Technician" asp-action="List" asp-area="">Technicians</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(c == "Customer" ? "active" : "")" asp-controller="Customer" asp-action="List" asp-area="">Customers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(c == "Incident" ? "active" : "")" asp-controller="Incident" asp-action="List" asp-area="">Incidents</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(c == "Registration" ? "active" : "")" asp-controller="Registration" asp-action="Index" asp-area="">Registrations</a>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a class="nav-link @(c == "User" && a == "List" ? "active" : "")" asp-controller="User" asp-action="List" asp-area="">Users</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav me-0">
                     @if (signInManager.IsSignedIn(User))
@@ -77,7 +61,7 @@
         @RenderBody()
 
     </div>
-    <hr />
+
     <footer class="container-fluid p-2 text-secondary">
         &copy; @DateTime.Now.Year - SportsPro
     </footer>

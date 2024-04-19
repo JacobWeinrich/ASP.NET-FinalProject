@@ -4,9 +4,11 @@ using Ch3CaseStudies.Models.DataLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ch3CaseStudies.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RegistrationController : Controller
     {
         //private readonly SportsProContext _context;

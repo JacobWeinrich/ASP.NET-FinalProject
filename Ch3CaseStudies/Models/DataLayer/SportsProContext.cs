@@ -1,9 +1,12 @@
 ﻿using Ch3CaseStudies.Models.Configuration;
 using Ch3CaseStudies.Models.DomainModels;
+using Ch3CaseStudies.Models.DomainModels.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ch3CaseStudies.Models.DataLayer
 {
-    public class SportsProContext : DbContext
+    public class SportsProContext : IdentityDbContext<User>
     {
         public DbSet<Incident> Incidents { get; set; } = null!;
 
@@ -20,6 +23,7 @@ namespace Ch3CaseStudies.Models.DataLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new CountryConfig());
 
             modelBuilder.ApplyConfiguration(new CustomerConfig());
@@ -28,5 +32,7 @@ namespace Ch3CaseStudies.Models.DataLayer
             modelBuilder.ApplyConfiguration(new TechnicianConfig());
 
         }
+
+
     }
 }

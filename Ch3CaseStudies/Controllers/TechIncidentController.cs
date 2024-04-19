@@ -1,11 +1,13 @@
 ﻿using Ch3CaseStudies.Models;
 using Ch3CaseStudies.Models.DataLayer;
 using Ch3CaseStudies.Models.DomainModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ch3CaseStudies.Controllers
 {
+    [Authorize]
     public class TechIncidentController : Controller
     {
         private const string TECH_KEY = "techId";

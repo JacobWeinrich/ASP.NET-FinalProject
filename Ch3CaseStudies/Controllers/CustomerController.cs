@@ -1,10 +1,13 @@
-﻿using Ch3CaseStudies.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Ch3CaseStudies.Models;
 using Ch3CaseStudies.Models.DataLayer;
 using Ch3CaseStudies.Models.DomainModels;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace Ch3CaseStudies.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CustomerController : Controller
     {
         private SportsProContext Context { get; set; }
